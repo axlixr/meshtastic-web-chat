@@ -67,6 +67,6 @@ Created by **Wasted Alien.**
 
 ## 🛰️ Acknowledgments
 
-* Meshtastic – Mesh communication platform.
-* Meshtastic Python API – For direct serial communication with the mesh.
-* Flask – Lightweight web server and framework.
+* [Meshtastic](https://meshtastic.org) – Mesh communication platform.
+* [Meshtastic Python API](https://github.com/meshtastic/meshtastic-python) – For direct serial communication with the mesh.
+* [Flask](https://flask.palletsprojects.com) – Lightweight web server and framework.
