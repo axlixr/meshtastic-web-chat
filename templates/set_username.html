@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Meshtastic Web Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+      background-color: #121212;
+      color: #ddd;
+    }
+    h2 {
+      color: #66ea95;
+    }
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    input[type="text"] {
+      padding: 12px;
+      font-size: 1.2rem;
+      border-radius: 8px;
+      border: 1px solid #444;
+      background-color: #1e1e1e;
+      color: #ddd;
+      outline-offset: 2px;
+    }
+    input[type="submit"] {
+      padding: 12px 20px;
+      font-size: 1.2rem;
+      border: none;
+      background-color: #66ea95;
+      color: white;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px #66ea95;
+      transition: background-color 0.3s ease;
+    }
+    input[type="submit"]:hover {
+      background-color: #66ea95;
+    }
+    footer {
+      margin-top: 40px;
+      padding: 12px 20px;
+      font-size: 0.9rem;
+      color: #888;
+      text-align: center;
+      border-top: 1px solid #333;
+      background-color: #121212;
+      user-select: none;
+    }
+    footer a {
+      color: #66ea95;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Welcome! Please enter a username</h2>
+
+  <form method="post">
+    <input
+      type="text"
+      name="username"
+      placeholder="Your username"
+      required
+      autofocus
+      autocomplete="off"
+    />
+    <input type="submit" value="Enter Chat" />
+  </form>
+
+  <footer>
+    <p>
+      Created by <strong>Wasted Alien</strong>.  
+      Powered by <a href="https://meshtastic.org" target="_blank" rel="noopener">Meshtastic</a>.
+    </p>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Meshtastic Web Chat</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background-color: #121212;
+      color: #ddd;
+    }
+
+    #chat-box {
+      border: 1px solid #333;
+      padding: 10px;
+      height: 300px;
+      overflow-y: scroll;
+      max-width: 500px;
+      margin: 0 auto 20px auto;
+      text-align: left;
+      background-color: #1e1e1e;
+      border-radius: 8px;
+      color: #ddd;
+    }
+
+    #chat-form {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      max-width: 500px;
+      margin: auto;
+    }
+
+    #message-input {
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #444;
+      border-radius: 6px;
+      background-color: #121212;
+      color: #ddd;
+      box-sizing: border-box;
+    }
+
+    #chat-form input[type="submit"] {
+      padding: 12px;
+      font-size: 16px;
+      border: none;
+      background-color: #66ea95;
+      color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    #chat-form input[type="submit"]:hover {
+      background-color: #66ea95;
+    }
+
+    
+    @media (max-width: 480px) {
+      #message-input,
+      #chat-form input[type="submit"] {
+        width: 100%;
+      }
+    }
+
+    footer {
+      margin-top: 40px;
+      padding: 12px 20px;
+      font-size: 0.9rem;
+      color: #888;
+      text-align: center;
+      border-top: 1px solid #333;
+      background-color: #121212;
+      user-select: none;
+    }
+    footer a {
+      color: #66ea95;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Meshtastic Chat</h1>
+  <p class="username">Logged in as: <strong id="username">{{ username }}</strong></p>
+
+  <div id="chat-box"></div>
+
+  <form id="chat-form">
+    <input
+      type="text"
+      id="message-input"
+      name="message"
+      placeholder="Type your message here"
+      autocomplete="off"
+      required
+    />
+    <input type="submit" value="Send" />
+  </form>
+
+  <script>
+    const chatBox = document.getElementById('chat-box');
+    const chatForm = document.getElementById('chat-form');
+    const messageInput = document.getElementById('message-input');
+    const username = "{{ username }}";
+
+    let lastSentMessage = null;
+
+    function appendMessage(msg) {
+      const div = document.createElement('div');
+      div.textContent = msg;
+      div.style.color = msg.startsWith('System:') ? '#888' : '#66ea95';
+      div.style.marginBottom = '8px';
+      chatBox.appendChild(div);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    chatForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const msg = messageInput.value.trim();
+      if (!msg) return;
+
+      lastSentMessage = `${username}: ${msg}`;
+      appendMessage(lastSentMessage);
+      messageInput.value = '';
+
+      try {
+        await fetch("/", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: new URLSearchParams({ message: msg }),
+        });
+      } catch (err) {
+        console.error("Failed to send message", err);
+      }
+    });
+
+    const eventSource = new EventSource('/stream');
+    eventSource.onmessage = function (event) {
+      const msg = event.data;
+      if (msg === lastSentMessage) {
+        lastSentMessage = null;
+        return;
+      }
+      appendMessage(msg);
+    };
+  </script>
+
+  <footer>
+    <p>
+      Created by <strong>Wasted Alien</strong>.  
+      Powered by <a href="https://meshtastic.org" target="_blank" rel="noopener">Meshtastic</a>.
+    </p>
+  </footer>
+
+</body>
+</html>
