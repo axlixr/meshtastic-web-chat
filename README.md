@@ -26,7 +26,7 @@ By connecting a Meshtastic node via USB to your offline/local server, you can in
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/wasted-alien/meshtastic-web-chat.git
+   git clone https://github.com/luckypines/meshtastic-web-chat.git
    cd meshtastic-web-chat
    ```
 
